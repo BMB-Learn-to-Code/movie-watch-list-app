@@ -1,0 +1,24 @@
+from flask import Flask, jsonify
+from db_connect import create_table, get_all_movies
+
+PORT=8080
+
+app = Flask(__name__)
+
+
+@app.route('/movies', methods=['GET'])
+def get_all():
+    movies = get_all_movies()
+
+    return jsonify(movies)
+
+@app.route('/movies', methods=['POST'])
+def create_new_movie():
+   return ""
+
+# Starting the service
+print("Starting Server...")
+if __name__ == '__main__':
+    create_table()
+    app.run(debug=True, host="0.0.0.0", port=PORT)
+    print(f"Running on ${PORT}...")
