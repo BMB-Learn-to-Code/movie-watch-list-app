@@ -1,10 +1,10 @@
-from flask import Flask, jsonify
-from db_connect import create_table, get_all_movies
+from flask import Flask, jsonify, request
+from datetime import datetime
+from db_connect import create_table, get_all_movies, add_movie
 
 PORT=8080
 
 app = Flask(__name__)
-
 
 @app.route('/movies', methods=['GET'])
 def get_all():
@@ -14,7 +14,11 @@ def get_all():
 
 @app.route('/movies', methods=['POST'])
 def create_new_movie():
-   return ""
+    data = request.get_json()
+    name = data['title']
+    date = datetime.now()
+    add_movie((name,date))
+    return jsonify({'status':200, 'message':'Movie created with success.'})
 
 # Starting the service
 print("Starting Server...")
