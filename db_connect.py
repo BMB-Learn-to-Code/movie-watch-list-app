@@ -1,5 +1,5 @@
 import sqlite3
-from queries import CREATE_TABLE, DROP_TABLE, INSERT_MOVIE, GET_ALL_MOVIES
+from queries import CREATE_TABLE, DROP_TABLE, INSERT_MOVIE, GET_ALL_MOVIES, GET_ALL_WATCHED_MOVIES
 
 def connect():
     return sqlite3.connect("database.db")
@@ -23,3 +23,8 @@ def get_all_movies():
     conn = connect()
     with conn:
         return conn.execute(GET_ALL_MOVIES).fetchall()
+
+def get_all_watched_movies():
+    conn = connect()
+    with conn:
+        return conn.execute(GET_ALL_WATCHED_MOVIES).fetchall()

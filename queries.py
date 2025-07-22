@@ -3,16 +3,20 @@ CREATE_TABLE = """
            title TEXT,
            release_timestamp REAL,
            watched INTEGER DEFAULT 0
-        )
+        );
     """
 DROP_TABLE = """
-       DROP TABLE IF EXISTS movies
+       DROP TABLE IF EXISTS movies;
     """
 
 INSERT_MOVIE = """
        INSERT INTO movies (title, release_timestamp, watched)
-       VALUES (?, ?, ?)
+       VALUES (?, ?, ?);
     """
 GET_ALL_MOVIES = """
-       SELECT * FROM movies
+       SELECT * FROM movies;
     """
+
+GET_ALL_WATCHED_MOVIES = """
+    SELECT * FROM movies WHERE watched = 1;
+"""

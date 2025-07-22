@@ -16,7 +16,7 @@ def get_all():
 def create_new_movie():
     data = request.get_json()
     name = data['title']
-    date = datetime.now()
+    date = datetime.now().timestamp()
     add_movie((name,date))
     return jsonify({'status':200, 'message':'Movie created with success.'})
 
