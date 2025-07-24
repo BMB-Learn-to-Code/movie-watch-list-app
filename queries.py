@@ -25,6 +25,7 @@ SELECT_UPCOMING_MOVIES = """
     SELECT * FROM movies WHERE release_timestamp > ?;
 """
 
+# Filter upcoming movies since they cannot be watched
 SET_WATCHED_MOVIES = """
-    UPDATE movies SET watched = ? WHERE title = ?;
+    UPDATE movies SET watched = ? WHERE title = ? AND release_timestamp < ?;
 """

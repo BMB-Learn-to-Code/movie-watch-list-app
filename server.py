@@ -25,8 +25,9 @@ def get_watched_movies():
 def create_new_movie():
     data = request.get_json()
     name = data['title']
+    release_date = data['release_date']
     # TODO: Change implementation to enable user to add the release date as dd-mm-yyyy format
-    date = datetime.now().timestamp()
+    date = datetime.strptime(release_date, "%d-%m-%Y")
     add_movie((name,date))
     return jsonify({'status':200, 'message':'Movie created with success.'})
 

@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 import time
 from queries import CREATE_TABLE, DROP_TABLE, INSERT_MOVIE, GET_ALL_MOVIES, GET_ALL_WATCHED_MOVIES, SELECT_UPCOMING_MOVIES, SET_WATCHED_MOVIES
 
@@ -33,10 +34,10 @@ def get_all_watched_movies():
 def get_all_upcoming_movies():
     conn = connect()
     with conn:
-        return conn.execute(SELECT_UPCOMING_MOVIES, (int(time.time()),)).fetchall()
+        return conn.execute(SELECT_UPCOMING_MOVIES, (datetime.now(),)).fetchall()
 
 def update_watched_movies(title, watched):
     conn = connect()
     print("Updating status...")
     with conn:
-        conn.execute(SET_WATCHED_MOVIES, (title, watched))
+        conn.execute(SET_WATCHED_MOVIES, (title, watched, datetime.now()))
