@@ -20,3 +20,11 @@ GET_ALL_MOVIES = """
 GET_ALL_WATCHED_MOVIES = """
     SELECT * FROM movies WHERE watched = 1;
 """
+
+SELECT_UPCOMING_MOVIES = """
+    SELECT * FROM movies WHERE release_timestamp > ?;
+"""
+
+SET_WATCHED_MOVIES = """
+    UPDATE movies SET watched = 1 WHERE title = ?;
+"""
