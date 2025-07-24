@@ -35,7 +35,8 @@ def get_all_upcoming_movies():
     with conn:
         return conn.execute(SELECT_UPCOMING_MOVIES, (int(time.time()),)).fetchall()
 
-def update_watched_movies(title):
+def update_watched_movies(title, watched):
     conn = connect()
+    print("Updating status...")
     with conn:
-        conn.execute(SET_WATCHED_MOVIES, (title))
+        conn.execute(SET_WATCHED_MOVIES, (title, watched))

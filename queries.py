@@ -26,5 +26,5 @@ SELECT_UPCOMING_MOVIES = """
 """
 
 SET_WATCHED_MOVIES = """
-    UPDATE movies SET watched = 1 WHERE title = ?;
+    UPDATE movies SET watched = ? WHERE title = ?;
 """
