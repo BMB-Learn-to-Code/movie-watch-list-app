@@ -1,6 +1,6 @@
 import sqlite3
 from datetime import datetime
-from queries import CREATE_TABLE, DROP_TABLE, INSERT_MOVIE, GET_ALL_MOVIES, GET_ALL_WATCHED_MOVIES, SELECT_UPCOMING_MOVIES, SET_WATCHED_MOVIES, DELETE_MOVIE
+from queries import CREATE_TABLE, DROP_TABLE, INSERT_MOVIE, GET_ALL_MOVIES, GET_ALL_WATCHED_MOVIES, SELECT_UPCOMING_MOVIES, INSERT_WATCHED_MOVIES, DELETE_MOVIE, DELETE_WATCHED_MOVIE
 
 def connect():
     return sqlite3.connect("database.db")
@@ -35,14 +35,20 @@ def get_all_upcoming_movies():
     with conn:
         return conn.execute(SELECT_UPCOMING_MOVIES, (datetime.now(),)).fetchall()
 
-def update_watched_movies(title, watched):
+def update_watched_movies(title, watcher_name):
     conn = connect()
     print("Updating status...")
     with conn:
-        conn.execute(SET_WATCHED_MOVIES, (title, watched, datetime.now()))
+        conn.execute(INSERT_WATCHED_MOVIES, (title, watcher_name))
 
 def delete_movie(title):
     conn = connect()
     print("Deleting movie...")
     with conn:
         conn.execute(DELETE_MOVIE, (title,))
+
+def delete_watched(title):
+    conn = connect()
+    print("Removing movie from watch_list...")
+    with conn:
+        conn.execute(DELETE_WATCHED_MOVIE, (title,))

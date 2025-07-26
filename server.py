@@ -31,10 +31,11 @@ def create_new():
     add_movie((name,date))
     return jsonify({'status':200, 'message':'Movie created with success.'})
 
-@app.route('/movies/<string:title>', methods=['PUT'])
-def update_status(title):
-    watched = request.args.get("watched", default=1, type=int)
-    update_watched_movies(watched, title)
+@app.route('/movies/<string:title>/watch', methods=['POST'])
+def add_to_watch_list(title):
+    data = request.get_json()
+    watcher_name = data['user']
+    update_watched_movies(title, watcher_name)
 
     return jsonify({'status': 200, 'message':'Movie Updated with success.'})
 
