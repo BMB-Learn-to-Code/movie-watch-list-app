@@ -1,13 +1,15 @@
 import sqlite3
 from datetime import datetime
-from queries import CREATE_TABLE, DROP_TABLE, INSERT_MOVIE, GET_ALL_MOVIES, GET_ALL_WATCHED_MOVIES, SELECT_UPCOMING_MOVIES, INSERT_WATCHED_MOVIES, DELETE_MOVIE, DELETE_WATCHED_MOVIE
+from queries import CREATE_TABLE, DROP_TABLE, INSERT_MOVIE, GET_ALL_MOVIES, GET_ALL_WATCHED_MOVIES, SELECT_UPCOMING_MOVIES, INSERT_WATCHED_MOVIES, DELETE_MOVIE, DELETE_WATCHED_MOVIE, CREATE_WATCHED_TABLE
 
 def connect():
     return sqlite3.connect("database.db")
+
 def create_table():
     conn = connect()
     with conn:
         conn.execute(CREATE_TABLE)
+        conn.execute(CREATE_WATCHED_TABLE)
 
 def drop_table():
     conn = connect()
@@ -18,7 +20,7 @@ def drop_table():
 def add_movie(data):
     conn = connect()
     with conn:
-        conn.execute(INSERT_MOVIE,(data[0], data[1], 0))
+        conn.execute(INSERT_MOVIE,(data[0], data[1]))
 
 def get_all_movies():
     conn = connect()

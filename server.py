@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from datetime import datetime
-from db_connect import create_table, get_all_movies, add_movie, get_all_watched_movies, get_all_upcoming_movies, update_watched_movies, delete_movie
+from db_connect import create_table, get_all_movies, add_movie, get_all_watched_movies, get_all_upcoming_movies, update_watched_movies, delete_movie, delete_watched
 
 PORT=8080
 
@@ -36,8 +36,16 @@ def create_new():
 @app.route('/movies/<string:title>/watch', methods=['POST'])
 def add_to_watch_list(title):
     data = request.get_json()
-    watcher_name = data['user']
+    watcher_name = data['user_name']
     update_watched_movies(title, watcher_name)
+
+    return jsonify({'status': 200, 'message':'Movie Updated with success.'})
+
+@app.route('/movies/<string:title>/unwatch', methods=['DELETE'])
+def unwatch_movie(title):
+    data = request.get_json()
+    watcher_name = data['user_name']
+    delete_watched(title, watcher_name)
 
     return jsonify({'status': 200, 'message':'Movie Updated with success.'})
 

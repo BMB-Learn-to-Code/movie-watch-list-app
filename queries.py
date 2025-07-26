@@ -1,19 +1,22 @@
 CREATE_TABLE = """
        CREATE TABLE IF NOT EXISTS movies (
            title TEXT,
-           release_timestamp REAL,
+           release_timestamp REAL
         );
+
+    """
+CREATE_WATCHED_TABLE= """
         CREATE TABLE IF NOT EXISTS watched (
             title TEXT, watcher_name TEXT
-        )
-    """
+        );
+"""
 DROP_TABLE = """
        DROP TABLE IF EXISTS movies;
     """
 
 INSERT_MOVIE = """
        INSERT INTO movies (title, release_timestamp)
-       VALUES (?, ?)
+       VALUES (?, ?);
     """
 GET_ALL_MOVIES = """
        SELECT * FROM movies;
@@ -31,7 +34,7 @@ SELECT_UPCOMING_MOVIES = """
 # Filter upcoming movies since they cannot be watched
 INSERT_WATCHED_MOVIES = """
     INSERT INTO watched (title,watcher_name)
-    VALUES(?,?)
+    VALUES(?,?);
 """
 
 DELETE_MOVIE = """
