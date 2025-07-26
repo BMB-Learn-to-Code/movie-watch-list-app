@@ -3,7 +3,7 @@ CREATE_TABLE = """
            title TEXT,
            release_timestamp REAL,
         );
-        CREATE TABLE IF NOT EXISTS watch_list (
+        CREATE TABLE IF NOT EXISTS watched (
             title TEXT, watcher_name TEXT
         )
     """
@@ -21,7 +21,7 @@ GET_ALL_MOVIES = """
 
 # TODO: Change the queries to instead of set movie as watched, add it to the watched table
 GET_ALL_WATCHED_MOVIES = """
-    SELECT * FROM watch_list WHERE watcher_name = ?;
+    SELECT * FROM watched WHERE watcher_name = ?;
 """
 
 SELECT_UPCOMING_MOVIES = """
@@ -30,7 +30,7 @@ SELECT_UPCOMING_MOVIES = """
 
 # Filter upcoming movies since they cannot be watched
 INSERT_WATCHED_MOVIES = """
-    INSERT INTO watch_list (title,watcher_name)
+    INSERT INTO watched (title,watcher_name)
     VALUES(?,?)
 """
 
@@ -39,5 +39,5 @@ DELETE_MOVIE = """
 """
 
 DELETE_WATCHED_MOVIE = """
-    DELETE FROM watch_list WHERE title = ? AND watcher_name = ?;
+    DELETE FROM watched WHERE title = ? AND watcher_name = ?;
 """
