@@ -25,10 +25,10 @@ def get_all_movies():
     with conn:
         return conn.execute(GET_ALL_MOVIES).fetchall()
 
-def get_all_watched_movies():
+def get_all_watched_movies(watcher_name):
     conn = connect()
     with conn:
-        return conn.execute(GET_ALL_WATCHED_MOVIES).fetchall()
+        return conn.execute(GET_ALL_WATCHED_MOVIES, (watcher_name,)).fetchall()
 
 def get_all_upcoming_movies():
     conn = connect()
@@ -47,8 +47,8 @@ def delete_movie(title):
     with conn:
         conn.execute(DELETE_MOVIE, (title,))
 
-def delete_watched(title):
+def delete_watched(title, watcher_name):
     conn = connect()
     print("Removing movie from watch_list...")
     with conn:
-        conn.execute(DELETE_WATCHED_MOVIE, (title,))
+        conn.execute(DELETE_WATCHED_MOVIE, (title,watcher_name))

@@ -18,7 +18,9 @@ def get_upcoming():
 
 @app.route('/movies/watched', methods=['GET'])
 def get_watched():
-    movies = get_all_watched_movies()
+    data = request.get_json()
+    user_name = data['user_name']
+    movies = get_all_watched_movies(user_name)
     return jsonify(movies)
 
 @app.route('/movies', methods=['POST'])
