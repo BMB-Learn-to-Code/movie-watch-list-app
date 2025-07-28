@@ -1,17 +1,23 @@
-CREATE_TABLE = """
+CREATE_MOVIES_TABLE = """
        CREATE TABLE IF NOT EXISTS movies (
            title TEXT,
            release_timestamp REAL
         );
 
     """
-CREATE_WATCHED_TABLE= """
-        CREATE TABLE IF NOT EXISTS watched (
-            title TEXT, watcher_name TEXT
+CREATE_USERS_TABLE = """
+    CREATE TABLE IF NOT EXISTS users (
+        name TEXT PRIMARY KEY
         );
-"""
-DROP_TABLE = """
+    """
+
+DROP_MOVIES_TABLE = """
        DROP TABLE IF EXISTS movies;
+    """
+
+INSERT_USER = """
+       INSERT INTO users (name)
+       VALUES (?);
     """
 
 INSERT_MOVIE = """
@@ -22,7 +28,6 @@ GET_ALL_MOVIES = """
        SELECT * FROM movies;
     """
 
-# TODO: Change the queries to instead of set movie as watched, add it to the watched table
 GET_ALL_WATCHED_MOVIES = """
     SELECT * FROM watched WHERE watcher_name = ?;
 """
