@@ -1,7 +1,6 @@
-from multiprocessing import connection
 import sqlite3
 from datetime import datetime
-from queries import CREATE_MOVIES_TABLE,CREATE_USERS_TABLE, DROP_MOVIES_TABLE, INSERT_MOVIE, GET_ALL_MOVIES, GET_ALL_WATCHED_MOVIES, SELECT_UPCOMING_MOVIES, INSERT_WATCHED_MOVIES, DELETE_MOVIE, DELETE_WATCHED_MOVIE
+from queries import CREATE_MOVIES_TABLE,CREATE_USERS_TABLE, DROP_MOVIES_TABLE, INSERT_MOVIE, GET_ALL_MOVIES, GET_ALL_WATCHED_MOVIES, SELECT_UPCOMING_MOVIES, INSERT_WATCHED_MOVIES, DELETE_MOVIE, DELETE_WATCHED_MOVIE, INSERT_USER
 
 def connect():
     return sqlite3.connect("database.db")
@@ -20,8 +19,8 @@ def drop_table():
 def insert_user(name):
     conn = connect()
     with conn:
-        conn.excecute(
-            
+        conn.execute(
+           INSERT_USER, (name,)
         )
 
 def add_movie(data):
