@@ -36,16 +36,16 @@ def create_new():
 @app.route('/movies/<string:title>/watch', methods=['POST'])
 def add_to_watch_list(title):
     data = request.get_json()
-    watcher_name = data['user_name']
-    update_watched_movies(title, watcher_name)
+    user_username = data['user_name']
+    update_watched_movies(title, user_username)
 
     return jsonify({'status': 200, 'message':'Movie Updated with success.'})
 
 @app.route('/movies/<string:title>/unwatch', methods=['DELETE'])
 def unwatch_movie(title):
     data = request.get_json()
-    watcher_name = data['user_name']
-    delete_watched(title, watcher_name)
+    user_username = data['user_name']
+    delete_watched(title, user_username)
 
     return jsonify({'status': 200, 'message':'Movie Updated with success.'})
 

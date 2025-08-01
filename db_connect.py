@@ -1,6 +1,6 @@
 import sqlite3
 from datetime import datetime
-from queries import CREATE_MOVIES_TABLE,CREATE_USERS_TABLE, DROP_MOVIES_TABLE, INSERT_MOVIE, GET_ALL_MOVIES, GET_ALL_WATCHED_MOVIES, SELECT_UPCOMING_MOVIES, INSERT_WATCHED_MOVIES, DELETE_MOVIE, DELETE_WATCHED_MOVIE, INSERT_USER
+from queries import CREATE_MOVIES_TABLE,CREATE_USERS_TABLE, DROP_MOVIES_TABLE, INSERT_MOVIE, GET_ALL_MOVIES, GET_ALL_WATCHED_MOVIES, SELECT_UPCOMING_MOVIES, INSERT_WATCHED_MOVIES, DELETE_MOVIE, DELETE_WATCHED_MOVIE, INSERT_USER, CREATE_WATCHED_TABLE
 
 def connect():
     return sqlite3.connect("database.db")
@@ -10,6 +10,7 @@ def create_table():
     with conn:
         conn.execute(CREATE_MOVIES_TABLE)
         conn.execute(CREATE_USERS_TABLE)
+        conn.execute(CREATE_WATCHED_TABLE)
 
 def drop_table():
     conn = connect()
@@ -33,21 +34,21 @@ def get_all_movies():
     with conn:
         return conn.execute(GET_ALL_MOVIES).fetchall()
 
-def get_all_watched_movies(watcher_name):
+def get_all_watched_movies(user_username):
     conn = connect()
     with conn:
-        return conn.execute(GET_ALL_WATCHED_MOVIES, (watcher_name,)).fetchall()
+        return conn.execute(GET_ALL_WATCHED_MOVIES, (user_username,)).fetchall()
 
 def get_all_upcoming_movies():
     conn = connect()
     with conn:
         return conn.execute(SELECT_UPCOMING_MOVIES, (datetime.now(),)).fetchall()
 
-def update_watched_movies(title, watcher_name):
+def update_watched_movies(title, user_username):
     conn = connect()
     print("Updating status...")
     with conn:
-        conn.execute(INSERT_WATCHED_MOVIES, (title, watcher_name))
+        conn.execute(INSERT_WATCHED_MOVIES, (title, user_username))
 
 def delete_movie(title):
     conn = connect()
@@ -55,8 +56,8 @@ def delete_movie(title):
     with conn:
         conn.execute(DELETE_MOVIE, (title,))
 
-def delete_watched(title, watcher_name):
+def delete_watched(title, user_username):
     conn = connect()
     print("Removing movie from watch_list...")
     with conn:
-        conn.execute(DELETE_WATCHED_MOVIE, (title,watcher_name))
+        conn.execute(DELETE_WATCHED_MOVIE, (title,user_username))

@@ -1,5 +1,6 @@
 CREATE_MOVIES_TABLE = """
        CREATE TABLE IF NOT EXISTS movies (
+           id int PRIMARY KEY AUTOINCREMENT,
            title TEXT,
            release_timestamp REAL
         );
@@ -10,6 +11,20 @@ CREATE_USERS_TABLE = """
         name TEXT PRIMARY KEY
         );
     """
+
+CREATE_WATCHED_TABLE = """
+    CREATE TABLE IF NOT EXISTS watched (
+        user_username TEXT PRIMARY KEY,
+        movie_id INTEGER,
+        FOREIGN KEY(user_username) REFERENCES user(username)
+        FOREIGN KEY(movie_id) REFEERNCES movies(id)
+    );
+"""
+
+INSERT_WATCHED_MOVIE = """
+    INSERT INTO watched (user_username, movie_id)
+    VALUES(?,?)
+"""
 
 DROP_MOVIES_TABLE = """
        DROP TABLE IF EXISTS movies;
@@ -29,7 +44,7 @@ GET_ALL_MOVIES = """
     """
 
 GET_ALL_WATCHED_MOVIES = """
-    SELECT * FROM watched WHERE watcher_name = ?;
+    SELECT * FROM watched WHERE user_username = ?;
 """
 
 SELECT_UPCOMING_MOVIES = """
@@ -38,7 +53,7 @@ SELECT_UPCOMING_MOVIES = """
 
 # Filter upcoming movies since they cannot be watched
 INSERT_WATCHED_MOVIES = """
-    INSERT INTO watched (title,watcher_name)
+    INSERT INTO watched (title,user_username)
     VALUES(?,?);
 """
 
@@ -47,5 +62,5 @@ DELETE_MOVIE = """
 """
 
 DELETE_WATCHED_MOVIE = """
-    DELETE FROM watched WHERE title = ? AND watcher_name = ?;
+    DELETE FROM watched WHERE title = ? AND user_username = ?;
 """
