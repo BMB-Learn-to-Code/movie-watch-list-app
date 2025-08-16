@@ -18,40 +18,46 @@ def get_upcoming():
 
 @app.route('/movies/watched', methods=['GET'])
 def get_watched():
-    data = request.get_json()
-    user_name = data['user_name']
+    # Check if there is a body in the request
+    if request.content_type != 'application/json':
+        return jsonify({'status': 415, 'message': 'Content-Type must be application/json'}), 415
+    data = request.get_json(silent=True)
+    if not data:
+        return jsonify({'status': 400, 'message': 'Invalid JSON in request body'}), 400
+    user_name = data.get('user_name')
+    if not user_name:
+        return jsonify({'status': 400, 'message': 'user_name is required'}), 400
     movies = get_all_watched_movies(user_name)
     return jsonify(movies)
 
 @app.route('/movies', methods=['POST'])
 def create_new():
     data = request.get_json()
-    name = data['title']
+    movie_title = data['title']
     release_date = data['release_date']
-    # TODO: Change implementation to enable user to add the release date as dd-mm-yyyy format
     date = datetime.strptime(release_date, "%d-%m-%Y")
-    add_movie((name,date))
+    add_movie((movie_title,date))
     return jsonify({'status':200, 'message':'Movie created with success.'})
 
-@app.route('/movies/<string:title>/watch', methods=['POST'])
-def add_to_watch_list(title):
+@app.route('/movies/<int:movie_id>/watch', methods=['POST'])
+def add_to_watch_list(movie_id):
     data = request.get_json()
     user_username = data['user_name']
     update_watched_movies(title, user_username)
 
     return jsonify({'status': 200, 'message':'Movie Updated with success.'})
 
-@app.route('/movies/<string:title>/unwatch', methods=['DELETE'])
-def unwatch_movie(title):
+@app.route('/movies/<id:movie_id>/unwatch', methods=['DELETE'])
+def unwatch_movie(movie_id):
     data = request.get_json()
     user_username = data['user_name']
     delete_watched(title, user_username)
 
     return jsonify({'status': 200, 'message':'Movie Updated with success.'})
 
-@app.route('/movies/<string:title>', methods=['DELETE'])
-def delete(title):
-    delete_movie(title)
+@app.route('/movies/<int:movie_id>', methods=['DELETE'])
+def delete(movie_id):
+    delete_movie(movie_id)
     return jsonify({'status': 200, 'message':'Movie Deleted with success.'})
 
 # Starting the service

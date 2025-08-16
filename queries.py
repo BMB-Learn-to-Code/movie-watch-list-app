@@ -51,14 +51,14 @@ SELECT_UPCOMING_MOVIES = """
     SELECT * FROM movies WHERE release_timestamp > ?;
 """
 
-# Filter upcoming movies since they cannot be watched
+# TODO: Filter upcoming movies since they cannot be watched
 INSERT_WATCHED_MOVIES = """
     INSERT INTO watched (title,user_username)
     VALUES(?,?);
 """
 
 DELETE_MOVIE = """
-    DELETE FROM movies WHERE title = ?;
+    DELETE FROM movies WHERE id = ?;
 """
 
 DELETE_WATCHED_MOVIE = """
