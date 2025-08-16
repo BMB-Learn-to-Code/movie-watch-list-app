@@ -77,3 +77,7 @@ DELETE_USER = """
 GET_ALL_USERS = """
     SELECT * FROM users;
 """
+
+DELETE_ALL_WATCHED_MOVIES_FROM_USER = """
+    DELETE FROM watched WHERE user_username=?;
+"""

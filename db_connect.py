@@ -4,7 +4,8 @@ from queries import (
     CREATE_MOVIES_TABLE, CREATE_USERS_TABLE, CREATE_WATCHED_TABLE,
     DROP_MOVIES_TABLE,INSERT_MOVIE, INSERT_USER, INSERT_WATCHED_MOVIES,
     GET_ALL_MOVIES, GET_ALL_WATCHED_MOVIES, SELECT_UPCOMING_MOVIES,
-    DELETE_MOVIE, DELETE_USER, DELETE_WATCHED_MOVIE, GET_ALL_USERS
+    DELETE_MOVIE, DELETE_USER, DELETE_WATCHED_MOVIE, GET_ALL_USERS,
+    DELETE_ALL_WATCHED_MOVIES_FROM_USER
 )
 
 def normalize_date(date_obj):
@@ -87,3 +88,8 @@ def get_all_users():
     conn = connect()
     with conn:
         return conn.execute(GET_ALL_USERS).fetchall()
+
+def delete_all_movies_from_user(username):
+    conn = connect()
+    with conn:
+        return conn.execute(DELETE_ALL_WATCHED_MOVIES_FROM_USER, (username,))

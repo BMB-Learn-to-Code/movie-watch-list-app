@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from datetime import datetime
 from db_connect import create_new_user, create_table, delete_user, get_all_movies, add_movie, get_all_watched_movies, get_all_upcoming_movies, update_watched_movies, delete_movie, delete_watched, get_all_users
+from db_connect import delete_all_movies_from_user
 
 PORT=8080
 
@@ -75,6 +76,7 @@ def get_all_users_endpoint():
 
 @app.route('/users/<string:username>/delete', methods=['DELETE'])
 def remove_user(username):
+    delete_all_movies_from_user(username)
     delete_user(username)
     return jsonify({'status': 200, 'message':'User Deleted with success.'})
 
