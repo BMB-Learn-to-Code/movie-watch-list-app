@@ -27,12 +27,6 @@ def drop_table():
     with conn:
         conn.execute(DROP_MOVIES_TABLE)
 
-def insert_user(name):
-    conn = connect()
-    with conn:
-        conn.execute(
-           INSERT_USER, (name,)
-        )
 
 def add_movie(data):
     conn = connect()

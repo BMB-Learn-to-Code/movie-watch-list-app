@@ -1,7 +1,12 @@
 from flask import Flask, jsonify, request
 from datetime import datetime
-from db_connect import create_new_user, create_table, delete_user, get_all_movies, add_movie, get_all_watched_movies, get_all_upcoming_movies, update_watched_movies, delete_movie, delete_watched, get_all_users
-from db_connect import delete_all_movies_from_user
+from db_connect import (
+    create_new_user, create_table, delete_user,
+    get_all_movies, add_movie, get_all_watched_movies,
+    get_all_upcoming_movies, update_watched_movies,
+    delete_movie, delete_watched, get_all_users,
+    delete_all_movies_from_user
+)
 
 PORT=8080
 
@@ -17,18 +22,11 @@ def get_upcoming():
     movies = get_all_upcoming_movies()
     return jsonify(movies)
 
-@app.route('/movies/watched', methods=['GET'])
-def get_watched():
-    # Check if there is a body in the request
-    if request.content_type != 'application/json':
-        return jsonify({'status': 415, 'message': 'Content-Type must be application/json'}), 415
-    data = request.get_json(silent=True)
-    if not data:
-        return jsonify({'status': 400, 'message': 'Invalid JSON in request body'}), 400
-    user_name = data.get('user_name')
-    if not user_name:
+@app.route('/movies/<string:username>/watched', methods=['GET'])
+def get_watched(username):
+    if not username:
         return jsonify({'status': 400, 'message': 'user_name is required'}), 400
-    movies = get_all_watched_movies(user_name)
+    movies = get_all_watched_movies(username)
     return jsonify(movies)
 
 @app.route('/movies', methods=['POST'])

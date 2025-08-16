@@ -1,549 +1,605 @@
 {
-  "info": {
-    "_postman_id": "fb75427d-14c4-4c39-84f5-f9e936fde417",
-    "name": "Movie Watch List API",
-    "description": "Postman collection for testing Movie Watch List API endpoints",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "1789842"
-  },
-  "item": [
-    {
-      "name": "Get All Movies",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response is JSON array\", function () {",
-              "    pm.response.to.be.json;",
-              "    pm.expect(pm.response.json()).to.be.an('array');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/movies",
-          "host": ["{{base_url}}"],
-          "path": ["movies"]
-        },
-        "description": "Retrieve all movies from the database"
-      },
-      "response": []
-    },
-    {
-      "name": "Get Upcoming Movies",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response is JSON array\", function () {",
-              "    pm.response.to.be.json;",
-              "    pm.expect(pm.response.json()).to.be.an('array');",
-              "});"
-            ],
-            "type": "text/javascript",
-            "packages": {}
-          }
-        }
-      ],
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true
-      },
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{base_url}}/movies/upcoming",
-          "host": ["{{base_url}}"],
-          "path": ["movies", "upcoming"]
-        },
-        "description": "Retrieve all upcoming movies (release timestamp > current time)"
-      },
-      "response": []
-    },
-    {
-      "name": "Get Watched Movies",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response is JSON array\", function () {",
-              "    pm.response.to.be.json;",
-              "    pm.expect(pm.response.json()).to.be.an('array');",
-              "});"
-            ],
-            "type": "text/javascript",
-            "packages": {}
-          }
-        }
-      ],
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true
-      },
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"user_name\":\"{{user_name}}\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{base_url}}/movies/watched",
-          "host": ["{{base_url}}"],
-          "path": ["movies", "watched"]
-        },
-        "description": "Retrieve watched movies for a specific user. Requires JSON body with user_name."
-      },
-      "response": []
-    },
-    {
-      "name": "Create New Movie",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response contains success message\", function () {",
-              "    const responseJson = pm.response.json();",
-              "    pm.expect(responseJson).to.have.property('status', 200);",
-              "    pm.expect(responseJson).to.have.property('message');",
-              "    pm.expect(responseJson.message).to.eql('Movie created with success.');",
-              "});"
-            ],
-            "type": "text/javascript",
-            "packages": {}
-          }
-        }
-      ],
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"title\": \"{{movie_title}}\",\n  \"release_date\": \"{{release_date}}\"\n}"
-        },
-        "url": {
-          "raw": "{{base_url}}/movies",
-          "host": ["{{base_url}}"],
-          "path": ["movies"]
-        },
-        "description": "Create a new movie in the watch list. Date format: dd-mm-yyyy"
-      },
-      "response": []
-    },
-    {
-      "name": "Create New Movie (Upcoming)",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response contains success message\", function () {",
-              "    const responseJson = pm.response.json();",
-              "    pm.expect(responseJson).to.have.property('status', 200);",
-              "    pm.expect(responseJson).to.have.property('message');",
-              "    pm.expect(responseJson.message).to.eql('Movie created with success.');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"title\": \"Dune: Part Three\",\n  \"release_date\": \"01-12-2026\"\n}"
-        },
-        "url": {
-          "raw": "{{base_url}}/movies",
-          "host": ["{{base_url}}"],
-          "path": ["movies"]
-        },
-        "description": "Create a new upcoming movie in the watch list. Date format: dd-mm-yyyy"
-      },
-      "response": []
-    },
-    {
-      "name": "Mark Movie as Watched",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response contains success message\", function () {",
-              "    const responseJson = pm.response.json();",
-              "    pm.expect(responseJson).to.have.property('status', 200);",
-              "    pm.expect(responseJson).to.have.property('message');",
-              "    pm.expect(responseJson.message).to.eql('Movie Updated with success.');",
-              "});"
-            ],
-            "type": "text/javascript",
-            "packages": {}
-          }
-        }
-      ],
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"user_name\": \"{{user_name}}\"\n}"
-        },
-        "url": {
-          "raw": "{{base_url}}/movies/{{movie_id}}/watch",
-          "host": ["{{base_url}}"],
-          "path": ["movies", "{{movie_id}}", "watch"]
-        },
-        "description": "Mark a movie as watched for a user. Requires JSON body with user_name."
-      },
-      "response": []
-    },
-    {
-      "name": "Unwatch Movie",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response contains success message\", function () {",
-              "    const responseJson = pm.response.json();",
-              "    pm.expect(responseJson).to.have.property('status', 200);",
-              "    pm.expect(responseJson).to.have.property('message');",
-              "    pm.expect(responseJson.message).to.eql('Movie Updated with success.');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "method": "DELETE",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"user_name\": \"{{user_name}}\"\n}"
-        },
-        "url": {
-          "raw": "{{base_url}}/movies/{{movie_id}}/unwatch",
-          "host": ["{{base_url}}"],
-          "path": ["movies", "{{movie_id}}", "unwatch"]
-        },
-        "description": "Remove a movie from a user's watched list. Requires JSON body with user_name."
-      },
-      "response": []
-    },
-    {
-      "name": "Delete Movie",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response contains success message\", function () {",
-              "    const responseJson = pm.response.json();",
-              "    pm.expect(responseJson).to.have.property('status', 200);",
-              "    pm.expect(responseJson).to.have.property('message');",
-              "    pm.expect(responseJson.message).to.eql('Movie Deleted with success.');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "method": "DELETE",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/movies/{{movie_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["movies", "{{movie_id}}"]
-        },
-        "description": "Delete a movie from the watch list by id"
-      },
-      "response": []
-    },
-    {
-      "name": "Get All Users",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response is JSON array\", function () {",
-              "    pm.response.to.be.json;",
-              "    pm.expect(pm.response.json()).to.be.an('array');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/users",
-          "host": ["{{base_url}}"],
-          "path": ["users"]
-        },
-        "description": "Retrieve all users from the database"
-      },
-      "response": []
-    },
-    {
-      "name": "Create New User",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response contains success message\", function () {",
-              "    const responseJson = pm.response.json();",
-              "    pm.expect(responseJson).to.have.property('status', 200);",
-              "    pm.expect(responseJson).to.have.property('message');",
-              "    pm.expect(responseJson.message).to.eql('User created with success.');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"user_name\": \"{{new_user_name}}\"\n}"
-        },
-        "url": {
-          "raw": "{{base_url}}/users",
-          "host": ["{{base_url}}"],
-          "path": ["users"]
-        },
-        "description": "Create a new user in the system"
-      },
-      "response": []
-    },
-    {
-      "name": "Delete User",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Response contains success message\", function () {",
-              "    const responseJson = pm.response.json();",
-              "    pm.expect(responseJson).to.have.property('status', 200);",
-              "    pm.expect(responseJson).to.have.property('message');",
-              "    pm.expect(responseJson.message).to.eql('User Deleted with success.');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "method": "DELETE",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/users/{{user_name}}/delete",
-          "host": ["{{base_url}}"],
-          "path": ["users", "{{user_name}}", "delete"]
-        },
-        "description": "Delete a user from the system by username"
-      },
-      "response": []
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "exec": [
-          "const ensureVar = (key, fallback) => {",
-          "  const current = pm.collectionVariables.get(key);",
-          "  if (current === undefined || current === null || current === \"\") {",
-          "    pm.collectionVariables.set(key, fallback);",
-          "  }",
-          "};",
-          "",
-          "ensureVar(\"base_url\", \"http://localhost:8080\");",
-          "ensureVar(\"user_name\", \"demo\");",
-          "ensureVar(\"movie_id\", \"1\");",
-          "ensureVar(\"new_user_name\", \"testuser\");",
-          "ensureVar(\"movie_title\", \"Test Movie\");",
-          "ensureVar(\"release_date\", \"01-01-2025\");"
-        ]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    }
-  ],
-  "variable": [
-    {
-      "key": "base_url",
-      "value": "http://localhost:8080",
-      "type": "string",
-      "description": "Base URL for the Movie Watch List API"
-    },
-    {
-      "key": "user_name",
-      "value": "demo",
-      "type": "string",
-      "description": "Demo user name for watched endpoints"
-    },
-    {
-      "key": "movie_id",
-      "value": "1",
-      "type": "string",
-      "description": "Sample movie id used in path params"
-    },
-    {
-      "key": "new_user_name",
-      "value": "testuser",
-      "type": "string",
-      "description": "User name for creating new users"
-    },
-
-    {
-      "key": "movie_title",
-      "value": "Test Movie",
-      "type": "string",
-      "description": "Sample movie title for creating movies"
-    },
-    {
-      "key": "release_date",
-      "value": "01-01-2025",
-      "type": "string",
-      "description": "Sample release date in dd-mm-yyyy format"
-    }
-  ]
+	"info": {
+		"_postman_id": "76517986-f7d8-404b-b93e-105fe73c045c",
+		"name": "Movie Watch List API",
+		"description": "Postman collection for testing Movie Watch List API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1789842"
+	},
+	"item": [
+		{
+			"name": "Get All Movies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is JSON array\", function () {",
+							"    pm.response.to.be.json;",
+							"    pm.expect(pm.response.json()).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/movies",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"movies"
+					]
+				},
+				"description": "Retrieve all movies from the database"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Upcoming Movies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is JSON array\", function () {",
+							"    pm.response.to.be.json;",
+							"    pm.expect(pm.response.json()).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/movies/upcoming",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"movies",
+						"upcoming"
+					]
+				},
+				"description": "Retrieve all upcoming movies (release timestamp > current time)"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Watched Movies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is JSON array\", function () {",
+							"    pm.response.to.be.json;",
+							"    pm.expect(pm.response.json()).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/movies/{{user_name}}/watched",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"movies",
+						"{{user_name}}",
+						"watched"
+					]
+				},
+				"description": "Retrieve watched movies for a specific user. Username is passed as path parameter."
+			},
+			"response": []
+		},
+		{
+			"name": "Create New Movie",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response contains success message\", function () {",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson).to.have.property('status', 200);",
+							"    pm.expect(responseJson).to.have.property('message');",
+							"    pm.expect(responseJson.message).to.eql('Movie created with success.');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"{{movie_title}}\",\n  \"release_date\": \"{{release_date}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/movies",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"movies"
+					]
+				},
+				"description": "Create a new movie in the watch list. Date format: dd-mm-yyyy"
+			},
+			"response": []
+		},
+		{
+			"name": "Create New Movie (Upcoming)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response contains success message\", function () {",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson).to.have.property('status', 200);",
+							"    pm.expect(responseJson).to.have.property('message');",
+							"    pm.expect(responseJson.message).to.eql('Movie created with success.');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Dune: Part Three\",\n  \"release_date\": \"01-12-2026\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/movies",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"movies"
+					]
+				},
+				"description": "Create a new upcoming movie in the watch list. Date format: dd-mm-yyyy"
+			},
+			"response": []
+		},
+		{
+			"name": "Mark Movie as Watched",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response contains success message\", function () {",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson).to.have.property('status', 200);",
+							"    pm.expect(responseJson).to.have.property('message');",
+							"    pm.expect(responseJson.message).to.eql('Movie Updated with success.');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"user_name\": \"{{user_name}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/movies/{{movie_id}}/watch",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"movies",
+						"{{movie_id}}",
+						"watch"
+					]
+				},
+				"description": "Mark a movie as watched for a user. Requires JSON body with user_name."
+			},
+			"response": []
+		},
+		{
+			"name": "Unwatch Movie",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response contains success message\", function () {",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson).to.have.property('status', 200);",
+							"    pm.expect(responseJson).to.have.property('message');",
+							"    pm.expect(responseJson.message).to.eql('Movie Updated with success.');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"user_name\": \"{{user_name}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/movies/{{movie_id}}/unwatch",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"movies",
+						"{{movie_id}}",
+						"unwatch"
+					]
+				},
+				"description": "Remove a movie from a user's watched list. Requires JSON body with user_name."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Movie",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response contains success message\", function () {",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson).to.have.property('status', 200);",
+							"    pm.expect(responseJson).to.have.property('message');",
+							"    pm.expect(responseJson.message).to.eql('Movie Deleted with success.');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/movies/{{movie_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"movies",
+						"{{movie_id}}"
+					]
+				},
+				"description": "Delete a movie from the watch list by id"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is JSON array\", function () {",
+							"    pm.response.to.be.json;",
+							"    pm.expect(pm.response.json()).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/users",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "Retrieve all users from the database"
+			},
+			"response": []
+		},
+		{
+			"name": "Create New User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response contains success message\", function () {",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson).to.have.property('status', 200);",
+							"    pm.expect(responseJson).to.have.property('message');",
+							"    pm.expect(responseJson.message).to.eql('User created with success.');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"user_name\": \"{{new_user_name}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "Create a new user in the system"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response contains success message\", function () {",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson).to.have.property('status', 200);",
+							"    pm.expect(responseJson).to.have.property('message');",
+							"    pm.expect(responseJson.message).to.eql('User Deleted with success.');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/users/{{user_name}}/delete",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"{{user_name}}",
+						"delete"
+					]
+				},
+				"description": "Delete a user from the system by username"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"const ensureVar = (key, fallback) => {",
+					"  const current = pm.collectionVariables.get(key);",
+					"  if (current === undefined || current === null || current === \"\") {",
+					"    pm.collectionVariables.set(key, fallback);",
+					"  }",
+					"};",
+					"",
+					"ensureVar(\"base_url\", \"http://localhost:8080\");",
+					"ensureVar(\"user_name\", \"demo\");",
+					"ensureVar(\"movie_id\", \"1\");",
+					"ensureVar(\"new_user_name\", \"testuser\");",
+					"ensureVar(\"movie_title\", \"Test Movie\");",
+					"ensureVar(\"release_date\", \"01-01-2025\");"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string",
+			"description": "Base URL for the Movie Watch List API"
+		},
+		{
+			"key": "user_name",
+			"value": "demo",
+			"type": "string",
+			"description": "Demo user name for watched endpoints"
+		},
+		{
+			"key": "movie_id",
+			"value": "1",
+			"type": "string",
+			"description": "Sample movie id used in path params"
+		},
+		{
+			"key": "new_user_name",
+			"value": "testuser",
+			"type": "string",
+			"description": "User name for creating new users"
+		},
+		{
+			"key": "movie_title",
+			"value": "Test Movie",
+			"type": "string",
+			"description": "Sample movie title for creating movies"
+		},
+		{
+			"key": "release_date",
+			"value": "01-01-2025",
+			"type": "string",
+			"description": "Sample release date in dd-mm-yyyy format"
+		}
+	]
 }
