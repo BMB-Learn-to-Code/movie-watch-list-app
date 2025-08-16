@@ -44,7 +44,10 @@ GET_ALL_MOVIES = """
     """
 
 GET_ALL_WATCHED_MOVIES = """
-   SELECT movies.title, movies.release_timestamp FROM watched JOIN movies ON watched.movie_id = movies.id WHERE user_username = ?;
+   SELECT movies.title, movies.release_timestamp
+   FROM movies
+   JOIN watched ON movies.id = watched.movie_id
+   WHERE user_username = ?;
 """
 
 SELECT_UPCOMING_MOVIES = """
