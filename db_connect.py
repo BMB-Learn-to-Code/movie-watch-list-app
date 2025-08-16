@@ -54,7 +54,7 @@ def delete_movie(id):
     conn = connect()
     print("Deleting movie...")
     with conn:
-        conn.execute(DELETE_MOVIE, (id))
+        conn.execute(DELETE_MOVIE, (id,))
 
 def delete_watched(user_username, movie_id):
     conn = connect()

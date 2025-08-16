@@ -16,7 +16,7 @@ CREATE_WATCHED_TABLE = """
     CREATE TABLE IF NOT EXISTS watched (
         user_username TEXT,
         movie_id INTEGER,
-        FOREIGN KEY(user_username) REFERENCES user(name),
+        FOREIGN KEY(user_username) REFERENCES users(name),
         FOREIGN KEY(movie_id) REFERENCES movies(id)
     );
 """
@@ -62,5 +62,5 @@ DELETE_MOVIE = """
 """
 
 DELETE_WATCHED_MOVIE = """
-    DELETE FROM watched WHERE title = ? AND user_username = ?;
+    DELETE FROM watched WHERE movie_id = ? AND user_username = ?;
 """
