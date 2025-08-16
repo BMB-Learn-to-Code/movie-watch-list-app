@@ -2,6 +2,10 @@ import sqlite3
 from datetime import datetime
 from queries import CREATE_MOVIES_TABLE,CREATE_USERS_TABLE, DROP_MOVIES_TABLE, INSERT_MOVIE, GET_ALL_MOVIES, GET_ALL_WATCHED_MOVIES, SELECT_UPCOMING_MOVIES, INSERT_WATCHED_MOVIES, DELETE_MOVIE, DELETE_WATCHED_MOVIE, INSERT_USER, CREATE_WATCHED_TABLE
 
+def normalize_date(date_obj):
+    """Convert datetime object to Unix timestamp for consistent storage."""
+    return date_obj.timestamp()
+
 def connect():
     return sqlite3.connect("database.db")
 
@@ -27,7 +31,7 @@ def insert_user(name):
 def add_movie(data):
     conn = connect()
     with conn:
-        conn.execute(INSERT_MOVIE,(data[0], data[1]))
+        conn.execute(INSERT_MOVIE,(data[0], normalize_date(data[1])))
 
 def get_all_movies():
     conn = connect()
@@ -42,7 +46,7 @@ def get_all_watched_movies(user_username):
 def get_all_upcoming_movies():
     conn = connect()
     with conn:
-        return conn.execute(SELECT_UPCOMING_MOVIES, (datetime.now(),)).fetchall()
+        return conn.execute(SELECT_UPCOMING_MOVIES, (normalize_date(datetime.now()),)).fetchall()
 
 def update_watched_movies(user_username,movie_id):
     conn = connect()

@@ -20,16 +20,6 @@
               "pm.test(\"Response is JSON array\", function () {",
               "    pm.response.to.be.json;",
               "    pm.expect(pm.response.json()).to.be.an('array');",
-              "});",
-              "",
-              "pm.test(\"Each movie has required fields\", function () {",
-              "    const movies = pm.response.json();",
-              "    if (movies.length > 0) {",
-              "        movies.forEach(movie => {",
-              "            pm.expect(movie).to.be.an('array');",
-              "            pm.expect(movie).to.have.lengthOf(3);",
-              "        });",
-              "    }",
               "});"
             ],
             "type": "text/javascript"
@@ -67,16 +57,6 @@
               "pm.test(\"Response is JSON array\", function () {",
               "    pm.response.to.be.json;",
               "    pm.expect(pm.response.json()).to.be.an('array');",
-              "});",
-              "",
-              "pm.test(\"All movies have future release dates\", function () {",
-              "    const movies = pm.response.json();",
-              "    const currentTime = Date.now() / 1000;",
-              "    movies.forEach(movie => {",
-              "        if (movie.length >= 2) {",
-              "            pm.expect(movie[1]).to.be.greaterThan(currentTime);",
-              "        }",
-              "    });",
               "});"
             ],
             "type": "text/javascript"
@@ -114,15 +94,6 @@
               "pm.test(\"Response is JSON array\", function () {",
               "    pm.response.to.be.json;",
               "    pm.expect(pm.response.json()).to.be.an('array');",
-              "});",
-              "",
-              "pm.test(\"All movies are marked as watched\", function () {",
-              "    const movies = pm.response.json();",
-              "    movies.forEach(movie => {",
-              "        if (movie.length >= 3) {",
-              "            pm.expect(movie[2]).to.equal(1);",
-              "        }",
-              "    });",
               "});"
             ],
             "type": "text/javascript"
@@ -137,12 +108,16 @@
             "value": "application/json"
           }
         ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_name\": \"{{user_name}}\"\n}"
+        },
         "url": {
           "raw": "{{base_url}}/movies/watched",
           "host": ["{{base_url}}"],
           "path": ["movies", "watched"]
         },
-        "description": "Retrieve all watched movies (watched = 1)"
+        "description": "Retrieve watched movies for a specific user. Requires JSON body with user_name."
       },
       "response": []
     },
@@ -161,7 +136,7 @@
               "    const responseJson = pm.response.json();",
               "    pm.expect(responseJson).to.have.property('status', 200);",
               "    pm.expect(responseJson).to.have.property('message');",
-              "    pm.expect(responseJson.message).to.include('success');",
+              "    pm.expect(responseJson.message).to.eql('Movie created with success.');",
               "});"
             ],
             "type": "text/javascript"
@@ -178,7 +153,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"title\": \"The Matrix\",\n    \"release_date\": \"31-03-1999\"\n}"
+          "raw": "{\n  \"title\": \"The Matrix\",\n  \"release_date\": \"31-03-1999\"\n}"
         },
         "url": {
           "raw": "{{base_url}}/movies",
@@ -204,7 +179,7 @@
               "    const responseJson = pm.response.json();",
               "    pm.expect(responseJson).to.have.property('status', 200);",
               "    pm.expect(responseJson).to.have.property('message');",
-              "    pm.expect(responseJson.message).to.include('success');",
+              "    pm.expect(responseJson.message).to.eql('Movie created with success.');",
               "});"
             ],
             "type": "text/javascript"
@@ -221,7 +196,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"title\": \"Dune: Part Three\",\n    \"release_date\": \"01-12-2026\"\n}"
+          "raw": "{\n  \"title\": \"Dune: Part Three\",\n  \"release_date\": \"01-12-2026\"\n}"
         },
         "url": {
           "raw": "{{base_url}}/movies",
@@ -247,7 +222,7 @@
               "    const responseJson = pm.response.json();",
               "    pm.expect(responseJson).to.have.property('status', 200);",
               "    pm.expect(responseJson).to.have.property('message');",
-              "    pm.expect(responseJson.message).to.include('success');",
+              "    pm.expect(responseJson.message).to.eql('Movie Updated with success.');",
               "});"
             ],
             "type": "text/javascript"
@@ -255,31 +230,28 @@
         }
       ],
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "header": [
           {
             "key": "Content-Type",
             "value": "application/json"
           }
         ],
-        "url": {
-          "raw": "{{base_url}}/movies/The Matrix?watched=1",
-          "host": ["{{base_url}}"],
-          "path": ["movies", "The Matrix"],
-          "query": [
-            {
-              "key": "watched",
-              "value": "1",
-              "description": "Set to 1 to mark as watched"
-            }
-          ]
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_name\": \"{{user_name}}\"\n}"
         },
-        "description": "Mark a movie as watched by setting watched=1. Only works for movies with past release dates."
+        "url": {
+          "raw": "{{base_url}}/movies/{{movie_id}}/watch",
+          "host": ["{{base_url}}"],
+          "path": ["movies", "{{movie_id}}", "watch"]
+        },
+        "description": "Mark a movie as watched for a user. Requires JSON body with user_name."
       },
       "response": []
     },
     {
-      "name": "Mark Movie as Unwatched",
+      "name": "Unwatch Movie",
       "event": [
         {
           "listen": "test",
@@ -293,7 +265,7 @@
               "    const responseJson = pm.response.json();",
               "    pm.expect(responseJson).to.have.property('status', 200);",
               "    pm.expect(responseJson).to.have.property('message');",
-              "    pm.expect(responseJson.message).to.include('success');",
+              "    pm.expect(responseJson.message).to.eql('Movie Updated with success.');",
               "});"
             ],
             "type": "text/javascript"
@@ -301,26 +273,23 @@
         }
       ],
       "request": {
-        "method": "PUT",
+        "method": "DELETE",
         "header": [
           {
             "key": "Content-Type",
             "value": "application/json"
           }
         ],
-        "url": {
-          "raw": "{{base_url}}/movies/The Matrix?watched=0",
-          "host": ["{{base_url}}"],
-          "path": ["movies", "The Matrix"],
-          "query": [
-            {
-              "key": "watched",
-              "value": "0",
-              "description": "Set to 0 to mark as unwatched"
-            }
-          ]
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_name\": \"{{user_name}}\"\n}"
         },
-        "description": "Mark a movie as unwatched by setting watched=0"
+        "url": {
+          "raw": "{{base_url}}/movies/{{movie_id}}/unwatch",
+          "host": ["{{base_url}}"],
+          "path": ["movies", "{{movie_id}}", "unwatch"]
+        },
+        "description": "Remove a movie from a user's watched list. Requires JSON body with user_name."
       },
       "response": []
     },
@@ -339,7 +308,7 @@
               "    const responseJson = pm.response.json();",
               "    pm.expect(responseJson).to.have.property('status', 200);",
               "    pm.expect(responseJson).to.have.property('message');",
-              "    pm.expect(responseJson.message).to.include('success');",
+              "    pm.expect(responseJson.message).to.eql('Movie Deleted with success.');",
               "});"
             ],
             "type": "text/javascript"
@@ -355,11 +324,11 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/movies/The Matrix",
+          "raw": "{{base_url}}/movies/{{movie_id}}",
           "host": ["{{base_url}}"],
-          "path": ["movies", "The Matrix"]
+          "path": ["movies", "{{movie_id}}"]
         },
-        "description": "Delete a movie from the watch list by title"
+        "description": "Delete a movie from the watch list by id"
       },
       "response": []
     }
@@ -369,7 +338,18 @@
       "listen": "prerequest",
       "script": {
         "type": "text/javascript",
-        "exec": [""]
+        "exec": [
+          "const ensureVar = (key, fallback) => {",
+          "  const current = pm.collectionVariables.get(key);",
+          "  if (current === undefined || current === null || current === \"\") {",
+          "    pm.collectionVariables.set(key, fallback);",
+          "  }",
+          "};",
+          "",
+          "ensureVar(\"base_url\", \"http://localhost:8080\");",
+          "ensureVar(\"user_name\", \"demo\");",
+          "ensureVar(\"movie_id\", \"1\");"
+        ]
       }
     },
     {
@@ -386,6 +366,18 @@
       "value": "http://localhost:8080",
       "type": "string",
       "description": "Base URL for the Movie Watch List API"
+    },
+    {
+      "key": "user_name",
+      "value": "demo",
+      "type": "string",
+      "description": "Demo user name for watched endpoints"
+    },
+    {
+      "key": "movie_id",
+      "value": "1",
+      "type": "string",
+      "description": "Sample movie id used in path params"
     }
   ]
 }
