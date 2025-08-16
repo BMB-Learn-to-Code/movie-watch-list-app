@@ -44,20 +44,20 @@ def get_all_upcoming_movies():
     with conn:
         return conn.execute(SELECT_UPCOMING_MOVIES, (datetime.now(),)).fetchall()
 
-def update_watched_movies(title, user_username):
+def update_watched_movies(user_username,movie_id):
     conn = connect()
     print("Updating status...")
     with conn:
-        conn.execute(INSERT_WATCHED_MOVIES, (title, user_username))
+        conn.execute(INSERT_WATCHED_MOVIES, (user_username, movie_id))
 
-def delete_movie(title):
+def delete_movie(id):
     conn = connect()
     print("Deleting movie...")
     with conn:
-        conn.execute(DELETE_MOVIE, (title,))
+        conn.execute(DELETE_MOVIE, (id))
 
-def delete_watched(title, user_username):
+def delete_watched(user_username, movie_id):
     conn = connect()
     print("Removing movie from watch_list...")
     with conn:
-        conn.execute(DELETE_WATCHED_MOVIE, (title,user_username))
+        conn.execute(DELETE_WATCHED_MOVIE, (user_username, movie_id))

@@ -1,6 +1,6 @@
 CREATE_MOVIES_TABLE = """
        CREATE TABLE IF NOT EXISTS movies (
-           id int PRIMARY KEY AUTOINCREMENT,
+           id INTEGER PRIMARY KEY AUTOINCREMENT,
            title TEXT,
            release_timestamp REAL
         );
@@ -14,10 +14,10 @@ CREATE_USERS_TABLE = """
 
 CREATE_WATCHED_TABLE = """
     CREATE TABLE IF NOT EXISTS watched (
-        user_username TEXT PRIMARY KEY,
+        user_username TEXT,
         movie_id INTEGER,
-        FOREIGN KEY(user_username) REFERENCES user(username)
-        FOREIGN KEY(movie_id) REFEERNCES movies(id)
+        FOREIGN KEY(user_username) REFERENCES user(name),
+        FOREIGN KEY(movie_id) REFERENCES movies(id)
     );
 """
 
@@ -53,7 +53,7 @@ SELECT_UPCOMING_MOVIES = """
 
 # TODO: Filter upcoming movies since they cannot be watched
 INSERT_WATCHED_MOVIES = """
-    INSERT INTO watched (title,user_username)
+    INSERT INTO watched (user_username, movie_id)
     VALUES(?,?);
 """
 
