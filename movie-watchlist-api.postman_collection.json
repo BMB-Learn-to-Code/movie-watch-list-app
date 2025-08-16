@@ -1,9 +1,10 @@
 {
   "info": {
-    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "_postman_id": "fb75427d-14c4-4c39-84f5-f9e936fde417",
     "name": "Movie Watch List API",
     "description": "Postman collection for testing Movie Watch List API endpoints",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "1789842"
   },
   "item": [
     {
@@ -59,10 +60,14 @@
               "    pm.expect(pm.response.json()).to.be.an('array');",
               "});"
             ],
-            "type": "text/javascript"
+            "type": "text/javascript",
+            "packages": {}
           }
         }
       ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
       "request": {
         "method": "GET",
         "header": [
@@ -71,6 +76,15 @@
             "value": "application/json"
           }
         ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
           "raw": "{{base_url}}/movies/upcoming",
           "host": ["{{base_url}}"],
@@ -96,10 +110,14 @@
               "    pm.expect(pm.response.json()).to.be.an('array');",
               "});"
             ],
-            "type": "text/javascript"
+            "type": "text/javascript",
+            "packages": {}
           }
         }
       ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
       "request": {
         "method": "GET",
         "header": [
@@ -110,7 +128,12 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_name\": \"{{user_name}}\"\n}"
+          "raw": "{\n    \"user_name\":\"{{user_name}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         },
         "url": {
           "raw": "{{base_url}}/movies/watched",
@@ -139,7 +162,8 @@
               "    pm.expect(responseJson.message).to.eql('Movie created with success.');",
               "});"
             ],
-            "type": "text/javascript"
+            "type": "text/javascript",
+            "packages": {}
           }
         }
       ],
@@ -153,7 +177,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"title\": \"The Matrix\",\n  \"release_date\": \"31-03-1999\"\n}"
+          "raw": "{\n  \"title\": \"{{movie_title}}\",\n  \"release_date\": \"{{release_date}}\"\n}"
         },
         "url": {
           "raw": "{{base_url}}/movies",
@@ -225,7 +249,8 @@
               "    pm.expect(responseJson.message).to.eql('Movie Updated with success.');",
               "});"
             ],
-            "type": "text/javascript"
+            "type": "text/javascript",
+            "packages": {}
           }
         }
       ],
@@ -331,6 +356,125 @@
         "description": "Delete a movie from the watch list by id"
       },
       "response": []
+    },
+    {
+      "name": "Get All Users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response is JSON array\", function () {",
+              "    pm.response.to.be.json;",
+              "    pm.expect(pm.response.json()).to.be.an('array');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users",
+          "host": ["{{base_url}}"],
+          "path": ["users"]
+        },
+        "description": "Retrieve all users from the database"
+      },
+      "response": []
+    },
+    {
+      "name": "Create New User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response contains success message\", function () {",
+              "    const responseJson = pm.response.json();",
+              "    pm.expect(responseJson).to.have.property('status', 200);",
+              "    pm.expect(responseJson).to.have.property('message');",
+              "    pm.expect(responseJson.message).to.eql('User created with success.');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_name\": \"{{new_user_name}}\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/users",
+          "host": ["{{base_url}}"],
+          "path": ["users"]
+        },
+        "description": "Create a new user in the system"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response contains success message\", function () {",
+              "    const responseJson = pm.response.json();",
+              "    pm.expect(responseJson).to.have.property('status', 200);",
+              "    pm.expect(responseJson).to.have.property('message');",
+              "    pm.expect(responseJson.message).to.eql('User Deleted with success.');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users/{{user_name}}/delete",
+          "host": ["{{base_url}}"],
+          "path": ["users", "{{user_name}}", "delete"]
+        },
+        "description": "Delete a user from the system by username"
+      },
+      "response": []
     }
   ],
   "event": [
@@ -348,7 +492,10 @@
           "",
           "ensureVar(\"base_url\", \"http://localhost:8080\");",
           "ensureVar(\"user_name\", \"demo\");",
-          "ensureVar(\"movie_id\", \"1\");"
+          "ensureVar(\"movie_id\", \"1\");",
+          "ensureVar(\"new_user_name\", \"testuser\");",
+          "ensureVar(\"movie_title\", \"Test Movie\");",
+          "ensureVar(\"release_date\", \"01-01-2025\");"
         ]
       }
     },
@@ -378,6 +525,25 @@
       "value": "1",
       "type": "string",
       "description": "Sample movie id used in path params"
+    },
+    {
+      "key": "new_user_name",
+      "value": "testuser",
+      "type": "string",
+      "description": "User name for creating new users"
+    },
+
+    {
+      "key": "movie_title",
+      "value": "Test Movie",
+      "type": "string",
+      "description": "Sample movie title for creating movies"
+    },
+    {
+      "key": "release_date",
+      "value": "01-01-2025",
+      "type": "string",
+      "description": "Sample release date in dd-mm-yyyy format"
     }
   ]
 }

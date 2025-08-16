@@ -62,5 +62,18 @@ DELETE_MOVIE = """
 """
 
 DELETE_WATCHED_MOVIE = """
-    DELETE FROM watched WHERE movie_id = ? AND user_username = ?;
+    DELETE FROM watched WHERE user_username = ? AND movie_id = ?;
+"""
+
+INSERT_USER = """
+    INSERT INTO users (name)
+    VALUES (?);
+"""
+
+DELETE_USER = """
+    DELETE FROM users WHERE name = ?;
+"""
+
+GET_ALL_USERS = """
+    SELECT * FROM users;
 """

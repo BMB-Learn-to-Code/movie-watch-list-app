@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from datetime import datetime
-from db_connect import create_table, get_all_movies, add_movie, get_all_watched_movies, get_all_upcoming_movies, update_watched_movies, delete_movie, delete_watched
+from db_connect import create_new_user, create_table, delete_user, get_all_movies, add_movie, get_all_watched_movies, get_all_upcoming_movies, update_watched_movies, delete_movie, delete_watched, get_all_users
 
 PORT=8080
 
@@ -56,9 +56,27 @@ def unwatch_movie(movie_id):
     return jsonify({'status': 200, 'message':'Movie Updated with success.'})
 
 @app.route('/movies/<int:movie_id>', methods=['DELETE'])
-def delete(movie_id):
+def remove_movies(movie_id):
     delete_movie(movie_id)
     return jsonify({'status': 200, 'message':'Movie Deleted with success.'})
+
+@app.route('/users', methods=['POST'])
+def add_user():
+    data = request.get_json()
+    user_name = data['user_name']
+    create_new_user(user_name)
+
+    return jsonify({'status': 200, 'message':'User created with success.'})
+
+@app.route('/users', methods=['GET'])
+def get_all_users_endpoint():
+    users = get_all_users()
+    return jsonify(users)
+
+@app.route('/users/<string:username>/delete', methods=['DELETE'])
+def remove_user(username):
+    delete_user(username)
+    return jsonify({'status': 200, 'message':'User Deleted with success.'})
 
 # Starting the service
 print("Starting Server...")

@@ -211,3 +211,6 @@ __marimo__/
 
 # Idea
 .idea
+
+# Sample data
+sample_data.json

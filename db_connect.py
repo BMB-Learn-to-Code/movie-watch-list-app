@@ -1,6 +1,11 @@
 import sqlite3
 from datetime import datetime
-from queries import CREATE_MOVIES_TABLE,CREATE_USERS_TABLE, DROP_MOVIES_TABLE, INSERT_MOVIE, GET_ALL_MOVIES, GET_ALL_WATCHED_MOVIES, SELECT_UPCOMING_MOVIES, INSERT_WATCHED_MOVIES, DELETE_MOVIE, DELETE_WATCHED_MOVIE, INSERT_USER, CREATE_WATCHED_TABLE
+from queries import (
+    CREATE_MOVIES_TABLE, CREATE_USERS_TABLE, CREATE_WATCHED_TABLE,
+    DROP_MOVIES_TABLE,INSERT_MOVIE, INSERT_USER, INSERT_WATCHED_MOVIES,
+    GET_ALL_MOVIES, GET_ALL_WATCHED_MOVIES, SELECT_UPCOMING_MOVIES,
+    DELETE_MOVIE, DELETE_USER, DELETE_WATCHED_MOVIE, GET_ALL_USERS
+)
 
 def normalize_date(date_obj):
     """Convert datetime object to Unix timestamp for consistent storage."""
@@ -65,3 +70,20 @@ def delete_watched(user_username, movie_id):
     print("Removing movie from watch_list...")
     with conn:
         conn.execute(DELETE_WATCHED_MOVIE, (user_username, movie_id))
+
+def create_new_user(name):
+    conn = connect()
+    print("Creating new user...")
+    with conn:
+        conn.execute(INSERT_USER, (name,))
+
+def delete_user(name):
+    conn = connect()
+    print("Deleting user...")
+    with conn:
+        conn.execute(DELETE_USER, (name,))
+
+def get_all_users():
+    conn = connect()
+    with conn:
+        return conn.execute(GET_ALL_USERS).fetchall()
