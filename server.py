@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from datetime import datetime
 from db_connect import (
     create_new_user, create_table, delete_user,
@@ -11,6 +12,7 @@ from db_connect import (
 PORT=8080
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 @app.route('/movies', methods=['GET'])
 def get_all():

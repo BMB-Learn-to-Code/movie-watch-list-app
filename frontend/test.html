@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .loading {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔌 API Connection Test</h1>
+        <p>This page tests the connection between the frontend and your Flask API backend.</p>
+
+        <button onclick="testAllEndpoints()">🧪 Test All Endpoints</button>
+        <button onclick="clearResults()">🗑️ Clear Results</button>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080';
+
+        function addResult(title, content, type = 'success') {
+            const resultsDiv = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.innerHTML = `
+                <h3>${title}</h3>
+                <div class="test-result ${type}">${content}</div>
+            `;
+            resultsDiv.appendChild(resultDiv);
+        }
+
+        function addDataResult(title, data) {
+            const resultsDiv = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.innerHTML = `
+                <h3>${title}</h3>
+                <div class="test-result success">✅ Success - Retrieved ${Array.isArray(data) ? data.length : 'N/A'} items</div>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            `;
+            resultsDiv.appendChild(resultDiv);
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+
+        async function testEndpoint(url, method = 'GET', body = null) {
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                };
+
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
+
+                const response = await fetch(url, options);
+                const data = await response.json();
+
+                return {
+                    success: true,
+                    status: response.status,
+                    data: data
+                };
+            } catch (error) {
+                return {
+                    success: false,
+                    error: error.message
+                };
+            }
+        }
+
+        async function testAllEndpoints() {
+            clearResults();
+            addResult('🧪 Starting API Tests...', 'Testing connection to Flask backend on localhost:8080', 'loading');
+
+            // Test 1: Get all movies
+            const moviesTest = await testEndpoint(`${API_BASE}/movies`);
+            if (moviesTest.success) {
+                addDataResult('📽️ GET /movies', moviesTest.data);
+            } else {
+                addResult('📽️ GET /movies', `❌ Failed: ${moviesTest.error}`, 'error');
+            }
+
+            // Test 2: Get users
+            const usersTest = await testEndpoint(`${API_BASE}/users`);
+            if (usersTest.success) {
+                addDataResult('👥 GET /users', usersTest.data);
+            } else {
+                addResult('👥 GET /users', `❌ Failed: ${usersTest.error}`, 'error');
+            }
+
+            // Test 3: Get upcoming movies
+            const upcomingTest = await testEndpoint(`${API_BASE}/movies/upcoming`);
+            if (upcomingTest.success) {
+                addDataResult('⏰ GET /movies/upcoming', upcomingTest.data);
+            } else {
+                addResult('⏰ GET /movies/upcoming', `❌ Failed: ${upcomingTest.error}`, 'error');
+            }
+
+            // Test 4: Get watched movies for demo user
+            const watchedTest = await testEndpoint(`${API_BASE}/movies/demo/watched`);
+            if (watchedTest.success) {
+                addDataResult('✅ GET /movies/demo/watched', watchedTest.data);
+            } else {
+                addResult('✅ GET /movies/demo/watched', `❌ Failed: ${watchedTest.error}`, 'error');
+            }
+
+            // Test 5: Create a test movie (and then delete it)
+            const testMovieData = {
+                title: "API Test Movie",
+                release_date: "01-01-2025"
+            };
+
+            const createTest = await testEndpoint(`${API_BASE}/movies`, 'POST', testMovieData);
+            if (createTest.success) {
+                addResult('🎬 POST /movies (Create)', `✅ Success: ${createTest.data.message}`, 'success');
+
+                // Get all movies again to find our test movie ID
+                const moviesAfterCreate = await testEndpoint(`${API_BASE}/movies`);
+                if (moviesAfterCreate.success) {
+                    const testMovie = moviesAfterCreate.data.find(movie => movie[1] === "API Test Movie");
+                    if (testMovie) {
+                        // Delete the test movie
+                        const deleteTest = await testEndpoint(`${API_BASE}/movies/${testMovie[0]}`, 'DELETE');
+                        if (deleteTest.success) {
+                            addResult('🗑️ DELETE /movies/{id}', `✅ Success: ${deleteTest.data.message}`, 'success');
+                        } else {
+                            addResult('🗑️ DELETE /movies/{id}', `❌ Failed: ${deleteTest.error}`, 'error');
+                        }
+                    }
+                }
+            } else {
+                addResult('🎬 POST /movies (Create)', `❌ Failed: ${createTest.error}`, 'error');
+            }
+
+            addResult('🎉 Test Complete!', 'All API tests finished. Check results above.', 'success');
+        }
+
+        // Run tests automatically when page loads
+        window.addEventListener('load', function() {
+            setTimeout(testAllEndpoints, 1000);
+        });
+    </script>
+</body>
+</html>

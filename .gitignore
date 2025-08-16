@@ -214,3 +214,6 @@ __marimo__/
 
 # Sample data
 sample_data.json
+frontend.pid
+server.pid
+server_new.pid
